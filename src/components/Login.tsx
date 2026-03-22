@@ -47,6 +47,7 @@ export default function Login({ onPasswordSet }: { onPasswordSet?: (session: any
   const handleGoogleLogin = async () => {
     setGoogleLoading(true)
     setError('')
+    console.log('[OAuth] Starting Google login, redirectTo:', ADMIN_URL)
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -58,6 +59,7 @@ export default function Login({ onPasswordSet }: { onPasswordSet?: (session: any
       },
     })
     if (error) {
+      console.error('[OAuth] Error starting Google login:', error)
       setError('Kunde inte starta Google-inloggning. Försök igen.')
       setGoogleLoading(false)
     }
