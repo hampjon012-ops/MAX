@@ -48,3 +48,4 @@ export default tseslint.config({
   },
 })
 ```
+# Force rebuild at mån 23 mar 2026 09:20:33 CET
