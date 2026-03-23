@@ -676,7 +676,7 @@ export default function Dashboard({ session }: { session: any }) {
                           <button
                             onClick={() => {
                               const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
-                              const redirectUri = encodeURIComponent('https://admin.appbok.se/.netlify/functions/google-calendar-sync')
+                              const redirectUri = encodeURIComponent('https://admin.appbok.se/api/google-calendar-sync')
                               const scope = encodeURIComponent('https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly')
                               const state = encodeURIComponent(member.id)
                               window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&state=${state}&access_type=offline&prompt=consent`
