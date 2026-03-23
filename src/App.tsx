@@ -5,9 +5,25 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 
 // Protected route wrapper using Supabase session
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
+function ProtectedRoute({ children, session }: { children: React.ReactNode; session: any }) {
   const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (session) {
+      setLoading(false)
+    }
+  }, [session])
+
+  if (loading) {
+    return <div className="loading-screen">Laddar...</div>
+  }
+
+  return session ? <>{children}</> : <Navigate to="/login" replace />
+}
+
+function App() {
   const [session, setSession] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -27,15 +43,15 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return <div className="loading-screen">Laddar...</div>
   }
 
-  return session ? <>{children}</> : <Navigate to="/login" replace />
-}
-
-function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/" element={
+          <ProtectedRoute session={session}>
+            <Dashboard session={session} />
+          </ProtectedRoute>
+        } />
       </Routes>
     </BrowserRouter>
   )
